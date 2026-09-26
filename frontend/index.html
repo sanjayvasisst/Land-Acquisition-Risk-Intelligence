@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Land Acquisition Risk Intelligence</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">AI-POWERED PREDICTIVE ANALYTICS</p>
+      <h1>Land Acquisition Risk Intelligence</h1>
+      <p class="subtitle">Predict delay risk, understand the key drivers, and identify suggested intervention areas.</p>
+    </div>
+    <a class="api-link" href="/docs" target="_blank">API Docs ↗</a>
+  </header>
+
+  <main class="layout">
+    <section class="card form-card">
+      <div class="section-head">
+        <div>
+          <span class="step">01</span>
+          <h2>Project information</h2>
+        </div>
+        <button id="sampleBtn" class="ghost">Load sample</button>
+      </div>
+      <form id="projectForm">
+        <div class="group-title">Location & project</div>
+        <div class="grid three">
+          <label>Project type<input name="project_type" value="Highway" required /></label>
+          <label>State<input name="state" value="Rajasthan" required /></label>
+          <label>District<input name="district" value="Udaipur" required /></label>
+        </div>
+
+        <div class="group-title">Scale & approvals</div>
+        <div class="grid three">
+          <label>Land area (acres)<input name="land_area_acres" type="number" min="0" step="0.1" value="100" required /></label>
+          <label>Affected families<input name="affected_families" type="number" min="0" value="50" required /></label>
+          <label>Approval days<input name="approval_days" type="number" min="0" value="120" required /></label>
+          <label>Pending approvals<input name="pending_approvals" type="number" min="0" value="2" required /></label>
+          <label>Legal disputes<input name="legal_disputes" type="number" min="0" value="1" required /></label>
+          <label>Notifications pending<input name="notifications_pending" type="number" min="0" value="1" required /></label>
+          <label>Ownership conflicts<input name="ownership_conflicts" type="number" min="0" value="1" required /></label>
+          <label>Inter-departmental issues<input name="inter_departmental_issues" type="number" min="0" value="3" required /></label>
+          <label>Stakeholder response (days)<input name="stakeholder_response_days" type="number" min="0" value="20" required /></label>
+        </div>
+
+        <div class="group-title">Progress & history</div>
+        <div class="grid three">
+          <label>Compensation paid (%)<input name="compensation_paid_pct" type="number" min="0" max="100" step="0.1" value="60" required /></label>
+          <label>Documentation complete (%)<input name="documentation_complete_pct" type="number" min="0" max="100" step="0.1" value="70" required /></label>
+          <label>Rehabilitation progress (%)<input name="rehabilitation_progress_pct" type="number" min="0" max="100" step="0.1" value="50" required /></label>
+          <label>Possession progress (%)<input name="possession_progress_pct" type="number" min="0" max="100" step="0.1" value="40" required /></label>
+          <label>Historical delay rate (%)<input name="historical_delay_rate_pct" type="number" min="0" max="100" step="0.1" value="40" required /></label>
+        </div>
+        <button class="primary" type="submit">Analyze project <span>→</span></button>
+      </form>
+      <p id="error" class="error"></p>
+    </section>
+
+    <section class="card result-card" id="resultCard">
+      <div class="section-head">
+        <div><span class="step">02</span><h2>Risk assessment</h2></div>
+        <span id="status" class="status idle">Awaiting analysis</span>
+      </div>
+      <div class="empty" id="emptyState">
+        <div class="empty-icon">◌</div>
+        <h3>Run an assessment</h3>
+        <p>Enter project conditions on the left. The model will return delay probability, risk level, expected delay range and SHAP-based drivers.</p>
+      </div>
+      <div id="results" class="hidden">
+        <div class="metrics">
+          <div class="metric"><span>Delay probability</span><strong id="probability">—</strong></div>
+          <div class="metric"><span>Risk level</span><strong id="risk">—</strong></div>
+          <div class="metric"><span>Expected delay</span><strong id="delay">—</strong></div>
+        </div>
+
+        <div class="result-grid">
+          <div class="panel">
+            <div class="panel-title"><h3>Top delay drivers</h3><span>SHAP</span></div>
+            <div id="drivers"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title"><h3>Suggested actions</h3><span>Next steps</span></div>
+            <ul id="actions"></ul>
+          </div>
+        </div>
+        <div class="note"><strong>Interpretation:</strong> contribution percentages are relative scores for this prediction, not causal percentages.</div>
+      </div>
+    </section>
+  </main>
+  <footer>Prototype based on the provided Random Forest + SHAP notebook. Model outputs should support, not replace, administrative review.</footer>
+  <script src="/app.js"></script>
+</body>
+</html>
