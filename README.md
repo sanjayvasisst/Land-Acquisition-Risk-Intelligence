@@ -1,5 +1,5 @@
 # Land Acquisition Delay Prediction — FastAPI + Frontend
-
+live demo -- https://land-acquisition-risk-intelligence.onrender.com/
 Production-style MVP built around the provided **Random Forest + SHAP** notebook and exported `.joblib` model.
 
 ## What is included
